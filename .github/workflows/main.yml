@@ -4,7 +4,7 @@ env:
   IMAGE_NAME: quarkus-kotlin-ms-customer
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  IMAGE_REF: ${{ env.DOCKER_USER }}/${{env.IMAGE_NAME}}:latest
+  IMAGE_REF: ${{ secrets.DOCKER_USER }}/${{env.IMAGE_NAME}}:latest
 
 on:
   push:
