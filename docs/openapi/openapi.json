@@ -1,0 +1,58 @@
+{
+  "openapi" : "3.1.0",
+  "components" : {
+    "schemas" : {
+      "CustomerResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "name", "email" ]
+      }
+    }
+  },
+  "paths" : {
+    "/custumers" : {
+      "get" : {
+        "summary" : "Lista de clientes",
+        "description" : "Retorna todos os clientes cadastrados",
+        "responses" : {
+          "200" : {
+            "description" : "Lista de clientes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CustomerResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Customer Resource" ]
+      }
+    }
+  },
+  "info" : {
+    "title" : "quarkus-kotlin-ms-custumer API",
+    "version" : "1.0.0-SNAPSHOT"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8080",
+    "description" : "Auto generated value"
+  }, {
+    "url" : "http://0.0.0.0:8080",
+    "description" : "Auto generated value"
+  } ]
+}
