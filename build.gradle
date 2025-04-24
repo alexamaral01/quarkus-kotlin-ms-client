@@ -34,6 +34,7 @@ sonarqube {
     properties {
         property("sonar.gradle.skipCompile", "true")
         property("sonar.projectKey","quarkus-kotlin-ms-customer")
+        property("sonar.branch.name", "main")
         property("sonar.host.url","https://sonarcloud.io")
         property("sonar.login", System.getenv("SONAR_TOKEN"))
         property("sonar.organization", "Alex Amaral")
