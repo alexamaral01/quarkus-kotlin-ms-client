@@ -76,3 +76,5 @@ Easily start your REST Web Services
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 
 ./gradlew --write-verification-metadata sha256 --refresh-dependencies help
+
+./gradlew dependencyCheckAnalyze

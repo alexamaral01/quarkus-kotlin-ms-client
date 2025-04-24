@@ -1,5 +1,11 @@
 name: Build and Push Docker Image
 
+env:
+  IMAGE_NAME: quarkus-kotlin-ms-customer
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  IMAGE_REF: ${{ env.DOCKER_USER }}/${{env.IMAGE_NAME}}:latest
+
 on:
   push:
     branches:
@@ -43,11 +49,21 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ env.DOCKER_USER }}
+          password: ${{ env.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest -f src/main/docker/Dockerfile.jvm .
+        run: docker build -t ${{ env.IMAGE_REF }} -f src/main/docker/Dockerfile.jvm .
+
+      - name: Scan Docker image for vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.IMAGE_REF }}
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+        env:
+          TRIVY_USERNAME: ${{ env.DOCKER_USER }}
+          TRIVY_PASSWORD: ${{ env.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest
+        run: docker push ${{ env.DOCKER_USER }}/${{env.IMAGE_NAME}}:latest
