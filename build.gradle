@@ -37,7 +37,7 @@ sonarqube {
         property("sonar.branch.name", "main")
         property("sonar.host.url","https://sonarcloud.io")
         property("sonar.login", System.getenv("SONAR_TOKEN"))
-        property("sonar.organization", "Alex Amaral")
+        property("sonar.organization", "alexamaral01-1")
     }
 }
 
