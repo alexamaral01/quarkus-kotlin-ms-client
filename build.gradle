@@ -4,6 +4,7 @@ plugins {
     id 'io.quarkus'
     id 'org.openapi.generator' version '7.5.0'
     id 'org.sonarqube' version "4.4.1.3373"
+    id 'jacoco'
 }
 
 repositories {
@@ -20,6 +21,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-config-yaml'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'io.quarkus:quarkus-arc'
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
@@ -28,36 +30,22 @@ dependencies {
 group 'org.acme'
 version '1.0.0-SNAPSHOT'
 
-sourceSets["main"].java.srcDir("$buildDir/generated/src/main/kotlin")
+var jacocoReportPath = layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml")
 
 sonarqube {
     properties {
         property("sonar.gradle.skipCompile", "true")
-        property("sonar.projectKey","alexamaral01_quarkus-kotlin-ms-customer")
+        property("sonar.projectKey", "alexamaral01_quarkus-kotlin-ms-customer")
         property("sonar.branch.name", "main")
-        property("sonar.host.url","https://sonarcloud.io")
+        property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.login", System.getenv("SONAR_TOKEN"))
         property("sonar.organization", "alexamaral01")
+        property("sonar.coverage.jacoco.xmlReportPaths", jacocoReportPath.get().asFile.absolutePath )
     }
 }
 
-openApiGenerate {
-    generatorName = "kotlin"
-    inputSpec = "$rootDir/src/main/resources/openapi/openapi.yaml".toString()
-    outputDir = "$buildDir/generated".toString()
-    apiPackage = "org.acme.api"
-    modelPackage = "org.acme.ms.inbound.rest.dto"
-    invokerPackage = "org.acme.invoker"
-    globalProperties = [
-            models: ""
-            //apis: "",
-    ]
-    additionalProperties = [
-            dateLibrary: "java8",
-            useTags: "true",
-            interfaceOnly: "true"
-    ]
-
+jacoco {
+    toolVersion = "0.8.11" // versão estável
 }
 
 java {
@@ -67,6 +55,8 @@ java {
 
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport) // gera o relatório após os testes
 }
 
 allOpen {
@@ -76,12 +66,27 @@ allOpen {
     annotation("io.quarkus.test.junit.QuarkusTest")
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
-    kotlinOptions.javaParameters = true
-    //dependsOn(tasks.openApiGenerate)
+
+kotlin {
+    jvmToolchain(21)
+
+    compilerOptions {
+        freeCompilerArgs.add("-Xjsr305=strict")
+        javaParameters.set(true)
+    }
 }
 
-compileTestKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+// Tasks
+
+tasks.register("sonarForce") {// ./gradlew sonarForce
+    dependsOn("build", "jacocoTestReport")
+    finalizedBy("sonar")
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // garante que o relatório só será gerado após os testes
+    reports {
+        xml.required.set(true) // necessário para Sonar
+        html.required.set(true)
+    }
 }
