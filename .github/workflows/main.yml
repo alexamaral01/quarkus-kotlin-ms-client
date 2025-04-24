@@ -44,4 +44,4 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest -f src/main/docker/Dockerfile.jvm .
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-app:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest
