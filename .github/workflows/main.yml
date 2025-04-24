@@ -28,9 +28,6 @@ jobs:
 
       - name: Run SonarQube analysis
         run: ./gradlew sonarqube \
-          -Dsonar.gradle.skipCompile=true \
-          -Dsonar.projectKey=quarkus-kotlin-ms-customer \
-          -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
           
       - name: Set up Docker Buildx
