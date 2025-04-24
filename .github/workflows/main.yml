@@ -23,6 +23,9 @@ jobs:
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x ./gradlew
 
+      - name: Verify dependencies
+        run: ./gradlew help
+
       - name: Build with Gradle
         run: ./gradlew build
 
@@ -44,4 +47,4 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest -f src/main/docker/Dockerfile.jvm .
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-app:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest
