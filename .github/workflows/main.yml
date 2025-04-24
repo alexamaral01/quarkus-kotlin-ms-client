@@ -1,10 +1,9 @@
 name: Build and Push Docker Image
 
 env:
-  IMAGE_NAME: quarkus-kotlin-ms-customer
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  IMAGE_REF: ${{ secrets.DOCKER_USER }}/${{env.IMAGE_NAME}}:latest
+  IMAGE_REF: ${{ secrets.DOCKER_USER }}/quarkus-kotlin-ms-customer:latest
 
 on:
   push:
@@ -66,4 +65,4 @@ jobs:
           TRIVY_PASSWORD: ${{ env.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push ${{ env.DOCKER_USER }}/${{env.IMAGE_NAME}}:latest
+        run: docker push ${{ env.IMAGE_REF }}
