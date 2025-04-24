@@ -3,13 +3,12 @@ package org.acme.ms.adapters.inbound.rest
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
-import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.MediaType.APPLICATION_JSON
-
 import org.acme.ms.adapters.inbound.rest.dto.CustomerResponse
 import org.eclipse.microprofile.openapi.annotations.Operation
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType
-import org.eclipse.microprofile.openapi.annotations.media.*
+import org.eclipse.microprofile.openapi.annotations.media.Content
+import org.eclipse.microprofile.openapi.annotations.media.Schema
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse
 
 
