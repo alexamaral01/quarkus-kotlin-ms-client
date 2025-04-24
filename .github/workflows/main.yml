@@ -26,6 +26,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: Run SonarQube analysis
+        run: ./gradlew sonarqube \
+          -Dsonar.projectKey=quarkus-kotlin-ms-customer \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -36,7 +42,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-app:latest -f src/main/docker/Dockerfile.jvm .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest -f src/main/docker/Dockerfile.jvm .
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-app:latest
