@@ -37,7 +37,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-app:latest .
+          run: docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-app:latest -f src/main/docker/Dockerfile .
 
       - name: Push Docker image
         run: |
