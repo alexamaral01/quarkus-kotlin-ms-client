@@ -33,6 +33,8 @@ sourceSets["main"].java.srcDir("$buildDir/generated/src/main/kotlin")
 sonarqube {
     properties {
         property("sonar.gradle.skipCompile", "true")
+        property("sonar.projectKey","quarkus-kotlin-ms-customer")
+        property("sonar.host.url","https://sonarcloud.io")
     }
 }
 
