@@ -30,6 +30,12 @@ version '1.0.0-SNAPSHOT'
 
 sourceSets["main"].java.srcDir("$buildDir/generated/src/main/kotlin")
 
+sonarqube {
+    properties {
+        property("sonar.gradle.skipCompile", "true")
+    }
+}
+
 openApiGenerate {
     generatorName = "kotlin"
     inputSpec = "$rootDir/src/main/resources/openapi/openapi.yaml".toString()
