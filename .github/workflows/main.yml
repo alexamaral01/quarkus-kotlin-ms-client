@@ -65,7 +65,7 @@ jobs:
       - name: Tag como latest
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:1.0.${{ github.run_number }} \
-                     ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-custome:latest
+                     ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest
 
       - name: Verificar imagens locais
         run: docker images
