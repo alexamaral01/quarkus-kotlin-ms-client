@@ -67,6 +67,9 @@ jobs:
           docker tag ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:1.0.${{ github.run_number }} \
                      ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-custome:latest
 
+      - name: Verificar imagens locais
+        run: docker images
+        
       - name: Push Docker image - version -> 1.0.${{ github.run_number }}
         run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:1.0.${{ github.run_number }} 
 
