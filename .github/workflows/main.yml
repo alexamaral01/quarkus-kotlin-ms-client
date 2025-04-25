@@ -62,8 +62,13 @@ jobs:
           TRIVY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           TRIVY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Tag como latest
+        run: |
+          docker tag ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:1.0.${{ github.run_number }} \
+                     ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-custome:latest
+
       - name: Push Docker image - version -> 1.0.${{ github.run_number }}
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:1.0.${{ github.run_number }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:1.0.${{ github.run_number }} 
 
       - name: Push da imagem latest
         run: docker push ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest
