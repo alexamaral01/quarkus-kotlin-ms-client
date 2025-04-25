@@ -47,16 +47,16 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USER }}/quarkus-kotlin-ms-customer:latest -f src/main/docker/Dockerfile.jvm .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest -f src/main/docker/Dockerfile.jvm .
 
       - name: Scan Docker image for vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ secrets.DOCKER_USER }}/quarkus-kotlin-ms-customer:latest
+          image-ref: ${{ secrets.DOCKER_USERNAME }}/quarkus-kotlin-ms-customer:latest
           format: 'table'
           severity: 'CRITICAL,HIGH'
         env:
-          TRIVY_USERNAME: ${{ secrets.DOCKER_USER }}
+          TRIVY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           TRIVY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
